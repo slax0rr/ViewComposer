@@ -44,9 +44,9 @@ class Viewcomposer
         return get_instance()->$param;
     }
 
-    public function load($view, &$data)
+    public function load($view, &$data, &$viewData)
     {
-        $regex = "~\\{(.*?)\\}~"; 
+        $regex = "~\\{(.*?)\\}~";
         foreach ($this->_composers as $key => $composer) {
             preg_match_all($regex, $key, $matches);
             foreach ($matches[1] as $match) {
@@ -61,9 +61,11 @@ class Viewcomposer
                     $obj = new $composer;
                     $this->_loaded[$composer] = $obj;
                 }
-                $obj->viewData = $data;
+                $obj->viewData = $viewData;
+                $obj->partialData = $data;
                 $obj->compose();
-                $data = $obj->viewData;
+                $data = $obj->partialData;
+                $viewData = $obj->viewData;
                 return true;
             }
         }

@@ -10,7 +10,7 @@ class MY_Loader extends CI_Loader
 
     public function view($view, $data = array(), $return = false)
     {
-        get_instance()->viewcomposer->load($view, $data);
+        get_instance()->viewcomposer->load($view, $data, $this->_ci_cached_vars);
         return parent::view($view, $data, $return);
     }
 }
